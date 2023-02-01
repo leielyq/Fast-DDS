@@ -122,6 +122,8 @@ bool StatelessReader::matched_writer_add(
             }
         }
 
+        measure_rss_usage(wdata.guid(), "begin StatelessReader::matched_writer_add ");
+
         bool is_same_process = RTPSDomainImpl::should_intraprocess_between(m_guid, wdata.guid());
         bool is_datasharing = !is_same_process && is_datasharing_compatible_with(wdata);
 
@@ -173,6 +175,7 @@ bool StatelessReader::matched_writer_add(
             // this has to be done after the writer is added to the matched_writers or the processing may fail
             datasharing_listener_->notify(false);
         }
+        measure_rss_usage(wdata.guid(), "end   StatelessReader::matched_writer_add ");
     }
 
     if (liveliness_lease_duration_ < c_TimeInfinite)
@@ -222,6 +225,7 @@ bool StatelessReader::matched_writer_remove(
     {
         std::unique_lock<RecursiveTimedMutex> guard(mp_mutex);
 
+        measure_rss_usage(writer_guid, "begin StatelessReader::matched_writer_remove ");
         //Remove cachechanges belonging to the unmatched writer
         mp_history->writer_unmatched(writer_guid, get_last_notified(writer_guid));
 
@@ -251,6 +255,7 @@ bool StatelessReader::matched_writer_remove(
                 return true;
             }
         }
+        measure_rss_usage(writer_guid, "end   StatelessReader::matched_writer_remove ");
     }
     return false;
 }

@@ -1040,6 +1040,7 @@ bool StatefulWriter::matched_reader_add(
         return false;
     }
 
+    measure_rss_usage(rdata.guid(), "begin StatefulWriter::matched_reader_add ");
     // Get a reader proxy from the inactive pool (or create a new one if necessary and allowed)
     ReaderProxy* rp = nullptr;
     if (matched_readers_pool_.empty())
@@ -1206,6 +1207,7 @@ bool StatefulWriter::matched_reader_add(
 
         mp_listener->on_reader_discovery(this, ReaderDiscoveryInfo::DISCOVERED_READER, rdata.guid(), &rdata);
     }
+    measure_rss_usage(rdata.guid(), "end   StatefulWriter::matched_reader_add ");
     return true;
 }
 
@@ -1217,6 +1219,7 @@ bool StatefulWriter::matched_reader_remove(
     std::unique_lock<LocatorSelectorSender> guard_locator_selector_general(locator_selector_general_);
     std::unique_lock<LocatorSelectorSender> guard_locator_selector_async(locator_selector_async_);
 
+    measure_rss_usage(reader_guid, "begin StatefulWriter::matched_reader_remove ");
     for (ReaderProxyIterator it = matched_local_readers_.begin();
             it != matched_local_readers_.end(); ++it)
     {
@@ -1289,6 +1292,7 @@ bool StatefulWriter::matched_reader_remove(
     }
 
     EPROSIMA_LOG_INFO(RTPS_HISTORY, "Reader Proxy doesn't exist in this writer");
+    measure_rss_usage(reader_guid, "end   StatefulWriter::matched_reader_remove ");
     return false;
 }
 
