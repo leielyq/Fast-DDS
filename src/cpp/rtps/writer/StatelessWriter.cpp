@@ -462,6 +462,8 @@ bool StatelessWriter::matched_reader_add(
         return false;
     }
 
+    measure_rss_usage(data.guid(), "begin StatelessWriter::matched_reader_add ");
+
     // Get a locator from the inactive pool (or create a new one if necessary and allowed)
     std::unique_ptr<ReaderLocator> new_reader;
     if (matched_readers_pool_.empty())
@@ -526,6 +528,7 @@ bool StatelessWriter::matched_reader_add(
         guard.unlock();
         mp_listener->on_reader_discovery(this, ReaderDiscoveryInfo::DISCOVERED_READER, data.guid(), &data);
     }
+    measure_rss_usage(data.guid(), "end   StatelessWriter::matched_reader_add ");
     return true;
 }
 
@@ -554,6 +557,8 @@ bool StatelessWriter::matched_reader_remove(
 {
     std::unique_lock<RecursiveTimedMutex> guard(mp_mutex);
     std::unique_lock<LocatorSelectorSender> locator_selector_guard(locator_selector_);
+
+    measure_rss_usage(reader_guid, "begin StatelessWriter::matched_reader_remove ");
 
     if (locator_selector_.locator_selector.remove_entry(reader_guid))
     {
@@ -615,6 +620,7 @@ bool StatelessWriter::matched_reader_remove(
         return true;
     }
 
+    measure_rss_usage(reader_guid, "end   StatelessWriter::matched_reader_remove ");
     return false;
 }
 
