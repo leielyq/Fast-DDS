@@ -19,8 +19,6 @@
 #ifndef _FASTDDS_RTPS_ENDPOINT_H_
 #define _FASTDDS_RTPS_ENDPOINT_H_
 
-#include <sys/resource.h>
-
 #include <fastdds/rtps/attributes/EndpointAttributes.h>
 
 #include <fastdds/rtps/common/Guid.h>
@@ -113,9 +111,6 @@ public:
 
 protected:
 
-    // Measure RSS memory usage
-    inline static uint64_t rss_memory_usage_ = 0;
-
     //!Pointer to the RTPSParticipant containing this endpoint.
     RTPSParticipantImpl* mp_RTPSParticipant;
 
@@ -136,19 +131,6 @@ protected:
 
     //!Fixed size of payloads
     uint32_t fixed_payload_size_ = 0;
-
-    void measure_rss_usage(
-            const GUID_t& guid,
-            const std::string& msg)
-    {
-        // Measure rss memory
-        struct rusage usage;
-        getrusage(RUSAGE_SELF, &usage);
-        uint64_t current_rss_usage = usage.ru_maxrss;
-        logError(RSS_USAGE, msg << guid << "\tIncrement: " <<
-            (current_rss_usage - rss_memory_usage_) << "\tTOTAL: " << current_rss_usage);
-        rss_memory_usage_ = current_rss_usage;    
-    }
 
 private:
 

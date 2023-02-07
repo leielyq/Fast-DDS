@@ -25,6 +25,9 @@
 #include <memory>
 #include <string>
 
+#include <sys/resource.h>
+
+#include <fastdds/rtps/common/Guid.h>
 #include <fastrtps/types/TypesBase.h>
 #include <utils/Host.hpp>
 
@@ -197,6 +200,13 @@ public:
      */
     static void stop_watching_file(
             FileWatchHandle& handle);
+
+    static void measure_rss_usage(
+            const fastrtps::rtps::GUID_t& guid,
+            const std::string& msg);
+
+    // Measure RSS memory usage
+    static uint64_t rss_memory_usage_;
 
 private:
 

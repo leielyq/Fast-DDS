@@ -26,6 +26,7 @@
 #include <string>
 
 #include <json.hpp>
+#include <fastdds/dds/log/Log.hpp>
 #include <fastrtps/types/TypesBase.h>
 
 namespace eprosima {
@@ -177,6 +178,20 @@ void SystemInfo::stop_watching_file(
     static_cast<void>(handle);
 }
 
+void SystemInfo::measure_rss_usage(
+        const fastrtps::rtps::GUID_t& guid,
+        const std::string& msg)
+{
+        // Measure rss memory
+        struct rusage usage;
+        getrusage(RUSAGE_SELF, &usage);
+        uint64_t current_rss_usage = usage.ru_maxrss;
+        logError(RSS_USAGE, msg << guid << "\tIncrement: " <<
+            (current_rss_usage - rss_memory_usage_) << "\tTOTAL: " << current_rss_usage);
+        rss_memory_usage_ = current_rss_usage;
+}
+
 std::string SystemInfo::environment_file_;
+uint64_t SystemInfo::rss_memory_usage_ = 0;
 
 } // eprosima
