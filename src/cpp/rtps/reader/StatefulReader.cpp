@@ -221,7 +221,7 @@ bool StatefulReader::matched_writer_add(
             }
         }
 
-        //SystemInfo::measure_rss_usage(wdata.guid(), "begin StatefulReader::matched_writer_add ");
+        SystemInfo::measure_rss_usage(wdata.guid(), "begin StatefulReader::matched_writer_add ");
         // Get a writer proxy from the inactive pool (or create a new one if necessary and allowed)
         WriterProxy* wp = nullptr;
         if (matched_writers_pool_.empty())
@@ -302,7 +302,7 @@ bool StatefulReader::matched_writer_add(
             matched_writers_.push_back(wp);
             logInfo(RTPS_READER, "Writer Proxy " << wp->guid() << " added to " << m_guid.entityId);
         }
-        //SystemInfo::measure_rss_usage(wdata.guid(), "end   StatefulReader::matched_writer_add ");
+        SystemInfo::measure_rss_usage(wdata.guid(), "end   StatefulReader::matched_writer_add ");
     }
     if (liveliness_lease_duration_ < c_TimeInfinite)
     {
@@ -351,7 +351,7 @@ bool StatefulReader::matched_writer_remove(
     }
 
     std::unique_lock<RecursiveTimedMutex> lock(mp_mutex);
-    //SystemInfo::measure_rss_usage(writer_guid, "begin StatefulReader::matched_writer_remove ");
+    SystemInfo::measure_rss_usage(writer_guid, "begin StatefulReader::matched_writer_remove ");
     WriterProxy* wproxy = nullptr;
     if (is_alive_)
     {
@@ -398,7 +398,7 @@ bool StatefulReader::matched_writer_remove(
                     "Writer Proxy " << writer_guid << " doesn't exist in reader " << this->getGuid().entityId);
         }
     }
-    //SystemInfo::measure_rss_usage(writer_guid, "end   StatefulReader::matched_writer_remove ");
+    SystemInfo::measure_rss_usage(writer_guid, "end   StatefulReader::matched_writer_remove ");
     return (wproxy != nullptr);
 }
 
