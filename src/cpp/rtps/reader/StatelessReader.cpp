@@ -161,7 +161,7 @@ bool StatelessReader::matched_writer_add(
             // this has to be done after the writer is added to the matched_writers or the processing may fail
             datasharing_listener_->notify(false);
         }
-        SystemInfo::measure_rss_usage(wdata.guid(), "end   StatelessReader::matched_writer_add ");
+        SystemInfo::measure_rss_usage(wdata.guid(), "end   StatelessReader::matched_writer_add ", true);
     }
 
     if (liveliness_lease_duration_ < c_TimeInfinite)

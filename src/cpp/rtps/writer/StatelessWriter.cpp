@@ -528,7 +528,7 @@ bool StatelessWriter::matched_reader_add(
         guard.unlock();
         mp_listener->on_reader_discovery(this, ReaderDiscoveryInfo::DISCOVERED_READER, data.guid(), &data);
     }
-    SystemInfo::measure_rss_usage(data.guid(), "end   StatelessWriter::matched_reader_add ");
+    SystemInfo::measure_rss_usage(data.guid(), "end   StatelessWriter::matched_reader_add ", true);
     return true;
 }
 
@@ -558,7 +558,7 @@ bool StatelessWriter::matched_reader_remove(
     std::unique_lock<RecursiveTimedMutex> guard(mp_mutex);
     std::unique_lock<LocatorSelectorSender> locator_selector_guard(locator_selector_);
 
-    SystemInfo::measure_rss_usage(reader_guid, "begin StatelessWriter::matched_reader_remove ");
+    // SystemInfo::measure_rss_usage(reader_guid, "begin StatelessWriter::matched_reader_remove ");
 
     if (locator_selector_.locator_selector.remove_entry(reader_guid))
     {
@@ -620,7 +620,7 @@ bool StatelessWriter::matched_reader_remove(
         return true;
     }
 
-    SystemInfo::measure_rss_usage(reader_guid, "end   StatelessWriter::matched_reader_remove ");
+    // SystemInfo::measure_rss_usage(reader_guid, "end   StatelessWriter::matched_reader_remove ");
     return false;
 }
 

@@ -236,7 +236,7 @@ ParticipantProxyData* PDP::add_participant_proxy_data(
     }
     participant_proxies_.push_back(ret_val);
 
-    SystemInfo::measure_rss_usage(participant_guid, "End   add_participant_proxy_data ");
+    SystemInfo::measure_rss_usage(participant_guid, "End   add_participant_proxy_data ", true);
     return ret_val;
 }
 
@@ -657,7 +657,7 @@ bool PDP::lookupWriterProxyData(
 bool PDP::removeReaderProxyData(
         const GUID_t& reader_guid)
 {
-    SystemInfo::measure_rss_usage(reader_guid, "Begin remove_reader_proxy_data ");
+    // SystemInfo::measure_rss_usage(reader_guid, "Begin remove_reader_proxy_data ");
     logInfo(RTPS_PDP, "Removing reader proxy data " << reader_guid);
     std::lock_guard<std::recursive_mutex> guardPDP(*this->mp_mutex);
 
@@ -685,7 +685,7 @@ bool PDP::removeReaderProxyData(
                 pit->m_readers->erase(rit);
                 reader_proxies_pool_.push_back(pR);
                 return true;
-                SystemInfo::measure_rss_usage(reader_guid, "End   remove_reader_proxy_data ");
+                // SystemInfo::measure_rss_usage(reader_guid, "End   remove_reader_proxy_data ");
             }
         }
     }
@@ -696,7 +696,7 @@ bool PDP::removeReaderProxyData(
 bool PDP::removeWriterProxyData(
         const GUID_t& writer_guid)
 {
-    SystemInfo::measure_rss_usage(writer_guid, "Begin remove_writer_proxy_data ");
+    // SystemInfo::measure_rss_usage(writer_guid, "Begin remove_writer_proxy_data ");
     logInfo(RTPS_PDP, "Removing writer proxy data " << writer_guid);
     std::lock_guard<std::recursive_mutex> guardPDP(*this->mp_mutex);
 
@@ -724,7 +724,7 @@ bool PDP::removeWriterProxyData(
                 pit->m_writers->erase(wit);
                 writer_proxies_pool_.push_back(pW);
 
-                SystemInfo::measure_rss_usage(writer_guid, "End   remove_writer_proxy_data ");
+                // SystemInfo::measure_rss_usage(writer_guid, "End   remove_writer_proxy_data ");
                 return true;
             }
         }
@@ -807,7 +807,7 @@ ReaderProxyData* PDP::addReaderProxyData(
                     check_and_notify_type_discovery(listener, *ret_val);
                 }
 
-                SystemInfo::measure_rss_usage(reader_guid, "End   add_reader_proxy_data ");
+                SystemInfo::measure_rss_usage(reader_guid, "End   add_reader_proxy_data ", true);
                 return ret_val;
             }
 
@@ -856,7 +856,7 @@ ReaderProxyData* PDP::addReaderProxyData(
                 check_and_notify_type_discovery(listener, *ret_val);
             }
 
-            SystemInfo::measure_rss_usage(reader_guid, "End   add_reader_proxy_data ");
+            SystemInfo::measure_rss_usage(reader_guid, "End   add_reader_proxy_data ", true);
             return ret_val;
         }
     }
@@ -906,7 +906,7 @@ WriterProxyData* PDP::addWriterProxyData(
                     check_and_notify_type_discovery(listener, *ret_val);
                 }
 
-                SystemInfo::measure_rss_usage(writer_guid, "End   add_writer_proxy_data ");
+                SystemInfo::measure_rss_usage(writer_guid, "End   add_writer_proxy_data ", true);
                 return ret_val;
             }
 
@@ -954,7 +954,7 @@ WriterProxyData* PDP::addWriterProxyData(
                 check_and_notify_type_discovery(listener, *ret_val);
             }
 
-            SystemInfo::measure_rss_usage(writer_guid, "End   add_writer_proxy_data ");
+            SystemInfo::measure_rss_usage(writer_guid, "End   add_writer_proxy_data ", true);
             return ret_val;
         }
     }
@@ -972,7 +972,7 @@ bool PDP::remove_remote_participant(
         return false;
     }
 
-    SystemInfo::measure_rss_usage(partGUID, "Begin remove_remote_participant ");
+    // SystemInfo::measure_rss_usage(partGUID, "Begin remove_remote_participant ");
     logInfo(RTPS_PDP, partGUID );
     ParticipantProxyData* pdata = nullptr;
 
@@ -1096,7 +1096,7 @@ bool PDP::remove_remote_participant(
         participant_proxies_pool_.push_back(pdata);
 
         this->mp_mutex->unlock();
-        SystemInfo::measure_rss_usage(partGUID, "End   remove_remote_participant ");
+        // SystemInfo::measure_rss_usage(partGUID, "End   remove_remote_participant ");
         return true;
     }
 

@@ -302,7 +302,7 @@ bool StatefulReader::matched_writer_add(
             matched_writers_.push_back(wp);
             logInfo(RTPS_READER, "Writer Proxy " << wp->guid() << " added to " << m_guid.entityId);
         }
-        SystemInfo::measure_rss_usage(wdata.guid(), "end   StatefulReader::matched_writer_add ");
+        SystemInfo::measure_rss_usage(wdata.guid(), "end   StatefulReader::matched_writer_add ", true);
     }
     if (liveliness_lease_duration_ < c_TimeInfinite)
     {
