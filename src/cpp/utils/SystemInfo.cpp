@@ -182,6 +182,8 @@ void SystemInfo::measure_rss_usage(
         const fastrtps::rtps::GUID_t& guid,
         const std::string& msg)
 {
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
+
         // Measure rss memory
         struct rusage usage;
         getrusage(RUSAGE_SELF, &usage);
