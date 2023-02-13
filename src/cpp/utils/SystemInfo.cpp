@@ -180,9 +180,13 @@ void SystemInfo::stop_watching_file(
 
 void SystemInfo::measure_rss_usage(
         const fastrtps::rtps::GUID_t& guid,
-        const std::string& msg)
+        const std::string& msg,
+        bool end)
 {
-        std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        if (end)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        }
 
         // Measure rss memory
         struct rusage usage;

@@ -203,7 +203,8 @@ public:
 
     static void measure_rss_usage(
             const fastrtps::rtps::GUID_t& guid,
-            const std::string& msg);
+            const std::string& msg,
+            bool end = false);
 
     // Measure RSS memory usage
     static uint64_t rss_memory_usage_;
